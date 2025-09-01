@@ -1,3 +1,5 @@
+package entities;
+
 import java.io.Serializable;
 
 public class VoteOption implements Serializable {
@@ -6,6 +8,11 @@ public class VoteOption implements Serializable {
     private int presentationOrder;
 
     public VoteOption() {
+    }
+
+    public VoteOption(String option, int presentationOrder) {
+        this.option = option;
+        this.presentationOrder = presentationOrder;
     }
 
     public String getOption() {

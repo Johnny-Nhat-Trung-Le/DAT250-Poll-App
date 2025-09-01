@@ -1,5 +1,8 @@
+package entities;
+
 import java.io.Serializable;
 import java.time.Instant;
+
 
 public class Poll implements Serializable {
 
@@ -8,6 +11,12 @@ public class Poll implements Serializable {
     private Instant validUntil;
 
     public Poll() {
+    }
+
+    public Poll(String question, Instant publishedAt, Instant validUntil) {
+        this.question = question;
+        this.publishedAt = publishedAt;
+        this.validUntil = validUntil;
     }
 
     public String getQuestion() {
