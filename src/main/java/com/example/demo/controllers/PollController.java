@@ -36,7 +36,7 @@ public class PollController {
     // GetMapping uses @RequestParam not @RequestBody
     @GetMapping("/polls")
     public ResponseEntity<Set<Poll>> getPolls() {
-        return ResponseEntity.ok(pollManager.getPollUserMap().keySet());
+        return ResponseEntity.ok(pollManager.getPolls());
     }
 
 //    @PostMapping("/polls")
@@ -48,9 +48,8 @@ public class PollController {
 
     // this one
     @PostMapping("/polls")
-    public ResponseEntity<HashMap<Poll, User>> addPoll(@RequestBody Poll poll) {
-        HashMap<Poll, User> map = pollManager.getPollUserMap();
-        map.put(poll, poll.getUser());
-        return ResponseEntity.ok(map);
+    public ResponseEntity<Poll> addPoll(@RequestBody Poll poll) {
+        pollManager.addPoll(poll);
+        return ResponseEntity.ok(poll);
     }
 }

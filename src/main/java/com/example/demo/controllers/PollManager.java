@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class PollManager implements Serializable {
@@ -15,7 +16,14 @@ public class PollManager implements Serializable {
     private HashMap<Poll, User> pollUserMap;
     private HashSet<User> users;
     // Vote -- Users?
-    //
+
+    /*
+    * PollManager hanldes everything storing related and such
+    * -->
+    * The controllers use PollManager and call specific methods to do stuff, get, set, delete and so on
+    *
+    * with this you dont need to test with response entities or not idk
+    * */
 
     public PollManager() {
         this.pollUserMap = new HashMap<>();
@@ -30,4 +38,9 @@ public class PollManager implements Serializable {
 
     public void setUsers(HashSet<User> users) { this.users = users; }
 
+    public void addUser(User user) { users.add(user); }
+
+    public Set<Poll> getPolls() { return pollUserMap.keySet(); }
+
+    public void addPoll(Poll poll) { pollUserMap.put(poll, poll.getOwner()); }
 }

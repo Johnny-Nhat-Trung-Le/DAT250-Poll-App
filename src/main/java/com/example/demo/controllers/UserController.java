@@ -17,7 +17,7 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<User> createUser (@RequestBody User user) {
-        pollManager.getUsers().add(user);
+        pollManager.addUser(user);
         return ResponseEntity.ok(user);
     }
 

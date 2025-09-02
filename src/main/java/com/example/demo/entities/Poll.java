@@ -26,10 +26,11 @@ public class Poll implements Serializable {
         this.owner = owner;
     }
 
-    // id?
+    // id?, int? or Long?, probably Long no?
+    // Poll cant exists without options | is my way of thinking
     public Poll(String question, Set<VoteOption> options, Instant publishedAt, Instant validUntil, User owner) {
         this.question = question;
-        this.options = new HashSet<>();
+        this.options = options;
         this.publishedAt = publishedAt;
         this.validUntil = validUntil;
         this.owner = owner;
@@ -54,6 +55,9 @@ public class Poll implements Serializable {
 
     public void setOptions(Set<VoteOption> options) { this.options = options; }
 
-    public User getUser() {return owner;}
+    public User getOwner() {return owner;}
 
+    public void setOwner(User owner) { this.owner = owner; }
+
+    // make getters and setters for everything, essentially
 }

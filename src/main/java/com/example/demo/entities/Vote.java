@@ -13,16 +13,17 @@ public class Vote implements Serializable {
     public Vote() {}
 
     // vote has a user connected to it, to option they are voting for and time they voted
-    public Vote(User user, VoteOption option, Instant publishedAt) {
+    // removing Instant from constructer | yes or no
+    public Vote(User user, VoteOption option) {
         this.user = user;
         this.option = option;
-        this.publishedAt = publishedAt;
+        this.publishedAt = Instant.now();
     }
 
     public Instant getPublishedAt() { return publishedAt; }
 
     public void setPublishedAt(Instant publishedAt) { this.publishedAt = publishedAt; }
 
-    // make getters and setters
+    // make getters and setters for everything, essentially
 
 }

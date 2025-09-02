@@ -14,12 +14,14 @@ public class User implements Serializable {
 
     public User() {}
 
-    // id?
+    // id?, int? or Long?, probably Long no?
     public User(String username, String email) {
         this.username = username;
         this.email = email;
         this.votes = new HashSet<>();
     }
+
+    // make getters and setters for everything, essentially
 
     public String getUsername() { return username; }
 

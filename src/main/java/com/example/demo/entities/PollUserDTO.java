@@ -2,6 +2,7 @@ package com.example.demo.entities;
 
 
 // FML didnt need
+// delete later
 public class PollUserDTO {
 
     private User user;
