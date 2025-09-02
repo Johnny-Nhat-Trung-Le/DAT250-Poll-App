@@ -1,6 +1,6 @@
-package repository;
+package com.example.demo.repository;
 
-import entities.VoteOption;
+import com.example.demo.entities.VoteOption;
 import org.springframework.data.repository.CrudRepository;
 
 public interface VoteOptionRepository extends CrudRepository<VoteOption,Long> {

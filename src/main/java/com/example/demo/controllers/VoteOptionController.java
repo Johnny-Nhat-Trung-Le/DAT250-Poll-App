@@ -1,16 +1,15 @@
-package controllers;
+package com.example.demo.controllers;
 
-import entities.VoteOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class VoteController {
+public class VoteOptionController {
 
     private final PollManager pollManager;
 
     @Autowired
-    public VoteController(PollManager pollManager) {
+    public VoteOptionController(PollManager pollManager) {
         this.pollManager = pollManager;
     }
 }

@@ -1,4 +1,4 @@
-package entities;
+package com.example.demo.entities;
 
 import java.io.Serializable;
 
@@ -6,6 +6,7 @@ public class User implements Serializable {
 
     private String username;
     private String email;
+
 
 
     public User() {

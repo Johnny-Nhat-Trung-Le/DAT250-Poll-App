@@ -1,7 +1,8 @@
-package entities;
+package com.example.demo.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Set;
 
 
 public class Poll implements Serializable {
@@ -10,11 +11,14 @@ public class Poll implements Serializable {
     private Instant publishedAt;
     private Instant validUntil;
 
+    private Set<VoteOption> options;
+
     public Poll() {
     }
 
-    public Poll(String question, Instant publishedAt, Instant validUntil) {
+    public Poll(String question, Set<VoteOption> options, Instant publishedAt, Instant validUntil) {
         this.question = question;
+        this.options = options;
         this.publishedAt = publishedAt;
         this.validUntil = validUntil;
     }
@@ -42,4 +46,8 @@ public class Poll implements Serializable {
     public void setValidUntil(Instant validUntil) {
         this.validUntil = validUntil;
     }
+
+    public Set<VoteOption> getOptions() { return options; }
+
+    public void setOptions(Set<VoteOption> options) { this.options = options; }
 }
