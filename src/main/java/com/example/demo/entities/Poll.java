@@ -13,15 +13,27 @@ public class Poll implements Serializable {
 
     private Set<VoteOption> options;
 
+    private User owner;
+
+    private int i;
+
     public Poll() {
     }
 
-    public Poll(String question, Set<VoteOption> options, Instant publishedAt, Instant validUntil) {
+    public Poll(int i, User owner) {
+        this.i = i;
+        this.owner = owner;
+    }
+
+    public Poll(String question, Set<VoteOption> options, Instant publishedAt, Instant validUntil, User owner) {
         this.question = question;
         this.options = options;
         this.publishedAt = publishedAt;
         this.validUntil = validUntil;
+        this.owner = owner;
     }
+
+    public int getI() { return i; }
 
     public String getQuestion() {
         return question;
@@ -50,4 +62,6 @@ public class Poll implements Serializable {
     public Set<VoteOption> getOptions() { return options; }
 
     public void setOptions(Set<VoteOption> options) { this.options = options; }
+
+    public User getUser() {return owner;}
 }

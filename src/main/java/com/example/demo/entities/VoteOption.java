@@ -7,6 +7,7 @@ public class VoteOption implements Serializable {
     private String option;
     private int presentationOrder;
 
+
     public VoteOption() {
     }
 
