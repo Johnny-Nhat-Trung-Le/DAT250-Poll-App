@@ -10,17 +10,17 @@ import java.util.HashMap;
 @Component
 public class PollManager implements Serializable {
 
-    private HashMap<User, Poll> pollUserMap;
+    private HashMap<Poll, User> pollUserMap;
 
     public PollManager() {
         this.pollUserMap = new HashMap<>();
     }
 
-    public HashMap<User, Poll> getPollUserMap() {
+    public HashMap<Poll, User> getPollUserMap() {
         return pollUserMap;
     }
 
-    public void setPollUserMap(HashMap<User, Poll> pollUserMap) {
+    public void setPollUserMap(HashMap<Poll, User> pollUserMap) {
         this.pollUserMap = pollUserMap;
     }
 
