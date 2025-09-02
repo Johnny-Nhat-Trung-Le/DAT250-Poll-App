@@ -14,7 +14,8 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(String username, String email, Set<Vote> votes) {
+    // id?
+    public User(String username, String email) {
         this.username = username;
         this.email = email;
         this.votes = new HashSet<>();

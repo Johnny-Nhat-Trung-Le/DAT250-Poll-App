@@ -9,9 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -19,19 +16,17 @@ public class UserControllerTest {
 
     private PollManager pollManager;
     private UserController userController;
-    private Set<Vote> set;
 
     @BeforeEach
     void setUp() {
         pollManager = new PollManager();
         userController = new UserController(pollManager);
-        set = new HashSet<>();
     }
 
     @Test
     void testCreateUser() {
-        User user = new User("Alice", "mail", set);
-        User user2 = new User("Bob", "mail2", set);
+        User user = new User("Alice", "mail");
+        User user2 = new User("Bob", "mail2");
         ResponseEntity<User> result = userController.createUser(user);
         ResponseEntity<User> result2 = userController.createUser(user2);
 

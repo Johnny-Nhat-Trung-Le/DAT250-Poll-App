@@ -9,6 +9,7 @@ public class VoteOption implements Serializable {
 
     public VoteOption() {}
 
+    // int? votecount?
     public VoteOption(String option, int presentationOrder) {
         this.option = option;
         this.presentationOrder = presentationOrder;

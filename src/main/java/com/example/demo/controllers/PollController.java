@@ -33,6 +33,7 @@ public class PollController {
 //        return ResponseEntity.notFound().build();
 //    }
 
+    // GetMapping uses @RequestParam not @RequestBody
     @GetMapping("/polls")
     public ResponseEntity<Set<Poll>> getPolls() {
         return ResponseEntity.ok(pollManager.getPollUserMap().keySet());

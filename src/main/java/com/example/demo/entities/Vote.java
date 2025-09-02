@@ -23,4 +23,6 @@ public class Vote implements Serializable {
 
     public void setPublishedAt(Instant publishedAt) { this.publishedAt = publishedAt; }
 
+    // make getters and setters
+
 }

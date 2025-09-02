@@ -11,8 +11,11 @@ import java.util.HashSet;
 @Component
 public class PollManager implements Serializable {
 
+    // User -- Poll connection
     private HashMap<Poll, User> pollUserMap;
     private HashSet<User> users;
+    // Vote -- Users?
+    //
 
     public PollManager() {
         this.pollUserMap = new HashMap<>();

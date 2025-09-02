@@ -11,6 +11,7 @@ public class Poll implements Serializable {
     private Instant publishedAt;
     private Instant validUntil;
 
+    // map, voteoption, votecount?
     private Set<VoteOption> options;
     private User owner;
 
@@ -25,6 +26,7 @@ public class Poll implements Serializable {
         this.owner = owner;
     }
 
+    // id?
     public Poll(String question, Set<VoteOption> options, Instant publishedAt, Instant validUntil, User owner) {
         this.question = question;
         this.options = new HashSet<>();
