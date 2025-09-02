@@ -12,7 +12,6 @@ import java.util.HashSet;
 public class PollManager implements Serializable {
 
     private HashMap<Poll, User> pollUserMap;
-
     private HashSet<User> users;
 
     public PollManager() {
@@ -20,15 +19,12 @@ public class PollManager implements Serializable {
         this.users = new HashSet<>();
     }
 
-    public HashMap<Poll, User> getPollUserMap() {
-        return pollUserMap;
-    }
+    public HashMap<Poll, User> getPollUserMap() { return pollUserMap; }
 
-    public void setPollUserMap(HashMap<Poll, User> pollUserMap) {
-        this.pollUserMap = pollUserMap;
-    }
+    public void setPollUserMap(HashMap<Poll, User> pollUserMap) { this.pollUserMap = pollUserMap; }
 
     public HashSet<User> getUsers() { return users; }
 
     public void setUsers(HashSet<User> users) { this.users = users; }
+
 }

@@ -9,7 +9,6 @@ public class VoteController {
     private final PollManager pollManager;
 
     @Autowired
-    public VoteController(PollManager pollManager) {
-        this.pollManager = pollManager;
-    }
+    public VoteController(PollManager pollManager) { this.pollManager = pollManager; }
+
 }

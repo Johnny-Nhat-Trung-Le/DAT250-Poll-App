@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +25,7 @@ public class PollControllerTest {
     void setUp() {
         pollManager = new PollManager();
         pollController = new PollController(pollManager);
-        user = new User("Alice", "email");
+        user = new User("Alice", "email", new HashSet<>());
         pollManager.getUsers().add(user);
         poll = new Poll(1, user);
         pollManager.getPollUserMap().put(poll, user);

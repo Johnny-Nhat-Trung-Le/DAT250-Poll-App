@@ -12,4 +12,5 @@ public class VoteOptionController {
     public VoteOptionController(PollManager pollManager) {
         this.pollManager = pollManager;
     }
+
 }

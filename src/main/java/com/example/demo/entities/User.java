@@ -1,36 +1,34 @@
 package com.example.demo.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class User implements Serializable {
 
     private String username;
     private String email;
 
-    public User() {
-    }
+    private Set<Vote> votes;
 
-    public User(String username, String email) {
+    public User() {}
+
+    public User(String username, String email, Set<Vote> votes) {
         this.username = username;
         this.email = email;
+        this.votes = new HashSet<>();
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getUsername() { return username; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public void setUsername(String username) { this.username = username; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getEmail() { return email; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
+
+    public Set<Vote> getVotes() { return votes; }
 
     @Override
     public boolean equals(Object o) {
@@ -39,4 +37,10 @@ public class User implements Serializable {
         User user = (User) o;
         return username.equals(user.username) && email.equals(user.email);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, email);
+    }
+
 }
