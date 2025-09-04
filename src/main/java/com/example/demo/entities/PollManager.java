@@ -98,7 +98,7 @@ public class PollManager implements Serializable {
         Set<Vote> votes = pollVoteMap.get(poll.getId());
         Vote oldVote = null;
         for (Vote vote : votes) {
-            if(userId.equals(vote.getUserId())) {
+            if(vote.getUserId().equals(userId)) {
                 oldVote = vote;
                 break;
             }
