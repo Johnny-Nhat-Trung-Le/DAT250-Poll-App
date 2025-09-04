@@ -8,7 +8,9 @@ import java.util.*;
 @Component
 public class PollManager implements Serializable {
 
+    // userId
     private HashMap<UUID, User> users;
+    // pollId
     private HashMap<UUID, Poll> polls;
     // pollId
     private final HashMap<UUID, Set<Vote>> pollVoteMap;
@@ -34,13 +36,9 @@ public class PollManager implements Serializable {
         pollVoteMap.put(poll.getId(), new HashSet<>());
     }
 
-    public User findUserById(UUID pollId) {
-        return users.get(pollId);
-    }
+    public User findUserById(UUID userId) { return users.get(userId); }
 
-    public Poll findPollById(UUID pollId) {
-        return polls.get(pollId);
-    }
+    public Poll findPollById(UUID pollId) { return polls.get(pollId); }
 
     public Collection<Poll> findPollsByUserId(UUID userId) {
         List<Poll> userPolls = new ArrayList<>();
@@ -115,5 +113,4 @@ public class PollManager implements Serializable {
             votes.add(newVote);
         }
     }
-
 }

@@ -24,6 +24,8 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0")
 	implementation("org.springframework.data:spring-data-jpa")
+//	// https://mvnrepository.com/artifact/org.projectlombok/lombok
+//	implementation("org.projectlombok:lombok:1.18.38")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
@@ -46,3 +48,4 @@ tasks.jacocoTestReport {
 		html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
 	}
 }
+

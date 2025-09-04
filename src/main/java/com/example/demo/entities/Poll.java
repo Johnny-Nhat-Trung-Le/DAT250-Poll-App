@@ -8,15 +8,14 @@ import java.util.UUID;
 
 public class Poll implements Serializable {
 
+    private UUID id;
+
     private String question;
     private Instant publishedAt;
     private Instant validUntil;
-
     private List<VoteOption> options;
     private HashMap<VoteOption, Long> voteCount;
-
     private UUID userId;
-    private UUID id;
 
     public Poll() {}
 

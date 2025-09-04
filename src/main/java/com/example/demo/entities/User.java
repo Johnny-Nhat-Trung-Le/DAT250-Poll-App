@@ -12,9 +12,9 @@ public class User implements Serializable {
     public User() {}
 
     public User(String username, String email) {
+        this.id = UUID.randomUUID();
         this.username = username;
         this.email = email;
-        this.id = UUID.randomUUID();
     }
 
     public String getUsername() { return username; }
