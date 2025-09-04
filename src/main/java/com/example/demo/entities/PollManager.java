@@ -3,7 +3,6 @@ package com.example.demo.entities;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.*;
 
 @Component
@@ -11,8 +10,8 @@ public class PollManager implements Serializable {
 
     private HashMap<UUID, User> users;
     private HashMap<UUID, Poll> polls;
-    // pollId, all the votes for that poll
-    private HashMap<UUID, Set<Vote>> pollVoteMap;
+    // pollId
+    private final HashMap<UUID, Set<Vote>> pollVoteMap;
 
     /*
     * PollManager hanldes everything storing related and such, everything poll related gets managed here
@@ -43,12 +42,12 @@ public class PollManager implements Serializable {
         pollVoteMap.put(poll.getId(), new HashSet<>());
     }
 
-    public User findUserById(UUID id) {
-        return users.get(id);
+    public User findUserById(UUID pollId) {
+        return users.get(pollId);
     }
 
-    public Poll findPollById(UUID id) {
-        return polls.get(id);
+    public Poll findPollById(UUID pollId) {
+        return polls.get(pollId);
     }
 
     public Collection<Poll> findPollsByUserId(UUID userId) {
@@ -69,16 +68,16 @@ public class PollManager implements Serializable {
         return true;
     }
 
-    public List<Vote> getVotes() {
-        List<Vote> allVotes = new ArrayList<>();
+    public Set<Vote> getVotes() {
+        Set<Vote> allVotes = new HashSet<>();
 
         for (Set<Vote> votes : pollVoteMap.values()) {
             allVotes.addAll(votes);
         } return allVotes;
     }
 
-    public List<Vote> findVotesByUserId(UUID userId) {
-        List<Vote> userVotes = new ArrayList<>();
+    public Set<Vote> findVotesByUserId(UUID userId) {
+        Set<Vote> userVotes = new HashSet<>();
 
         for (Set<Vote> votes : pollVoteMap.values()) {
             for (Vote vote : votes) {
@@ -90,11 +89,41 @@ public class PollManager implements Serializable {
     }
 
     public Vote findRecentVoteByUserId(UUID userId) {
-        List<Vote> userVotes = findVotesByUserId(userId);
+        Set<Vote> userVotes = findVotesByUserId(userId);
         return userVotes.stream()
                 .max(Comparator.comparing(Vote::getPublishedAt))
                 .orElse(null);
     }
 
-    // evt. public void incrementVoteCount() { voteCount += 1; }
+    public void vote(Poll poll, Vote vote) {
+        pollVoteMap.get(poll.getId()).add(vote);
+        incrementVoteCount(poll, vote);
+    }
+
+    private void incrementVoteCount(Poll poll, Vote vote) {
+        HashMap<VoteOption, Long> mapCount = poll.getVoteCount();
+        VoteOption voteOption = vote.getOption();
+        mapCount.merge(voteOption, 1L, Long::sum);
+    }
+
+    public void changeVote(Poll poll, Vote newVote) {
+        UUID userId = newVote.getUserId();
+        Set<Vote> votes = pollVoteMap.get(poll.getId());
+        Vote oldVote = null;
+        for (Vote vote : votes) {
+            if(userId.equals(vote.getUserId())) {
+                oldVote = vote;
+                break;
+            }
+        }
+
+        if (oldVote != null && !oldVote.getOption().equals(newVote.getOption())) {
+            poll.getVoteCount().merge(oldVote.getOption(), -1L, Long::sum);
+            poll.getVoteCount().merge(newVote.getOption(), 1L, Long::sum);
+
+            votes.remove(oldVote);
+            votes.add(newVote);
+        }
+    }
+
 }

@@ -2,7 +2,9 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Poll implements Serializable {
@@ -12,6 +14,7 @@ public class Poll implements Serializable {
     private Instant validUntil;
 
     private List<VoteOption> options;
+    private HashMap<VoteOption, Long> voteCount;
 
     private UUID userId;
     private UUID id;
@@ -25,6 +28,11 @@ public class Poll implements Serializable {
         this.publishedAt = publishedAt;
         this.validUntil = validUntil;
         this.userId = userId;
+
+        this.voteCount = new HashMap<>();
+        for (VoteOption voteOption : options) {
+            voteCount.put(voteOption, 0L);
+        }
     }
 
     public UUID getId() { return id; }
@@ -44,6 +52,8 @@ public class Poll implements Serializable {
     public List<VoteOption> getOptions() { return options; }
 
     public void setOptions(List<VoteOption> options) { this.options = options; }
+
+    public HashMap<VoteOption, Long> getVoteCount() { return voteCount; }
 
     public UUID getUserId() {return userId;}
 

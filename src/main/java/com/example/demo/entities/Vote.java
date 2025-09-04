@@ -6,11 +6,9 @@ import java.util.UUID;
 
 public class Vote implements Serializable {
 
-    private Instant publishedAt;
-
-    // change user to UUID
     private UUID userId;
     private VoteOption option;
+    private Instant publishedAt;
 
     public Vote() {}
 

@@ -6,14 +6,13 @@ public class VoteOption implements Serializable {
 
     private String option;
     private int presentationOrder;
-    private Long voteCount;
 
     public VoteOption() {}
 
-    public VoteOption(String option, int presentationOrder, Long voteCount) {
+    // Maybe the size of a set<vote> ??
+    public VoteOption(String option, int presentationOrder) {
         this.option = option;
         this.presentationOrder = presentationOrder;
-        this.voteCount = 0L;
     }
 
     public String getOption() { return option; }
@@ -23,9 +22,5 @@ public class VoteOption implements Serializable {
     public int getPresentationOrder() { return presentationOrder; }
 
     public void setPresentationOrder(int presentationOrder) { this.presentationOrder = presentationOrder; }
-
-    public Long getVoteCount() { return voteCount; }
-
-    public void setVoteCount(Long voteCount) { this.voteCount = voteCount; }
 
 }

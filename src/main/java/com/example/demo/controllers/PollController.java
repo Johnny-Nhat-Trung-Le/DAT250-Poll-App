@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.Poll;
 import com.example.demo.entities.PollManager;
+import com.example.demo.entities.Vote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -54,8 +54,31 @@ public class PollController {
         return ResponseEntity.noContent().build();
     }
 
-//    @PostMapping("/polls/vote")
-//    public
+    @PostMapping("/polls/{pollId}/vote")
+    public ResponseEntity<Void> vote(@PathVariable UUID pollId, @RequestBody Vote vote) {
+        if (vote == null || vote.getOption() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Poll poll = pollManager.findPollById(pollId);
+        if (poll == null) {
+            return ResponseEntity.notFound().build();
+        }
+        pollManager.vote(poll,vote);
+        return ResponseEntity.ok().build();
+    }
 
-    //@PutMapping to update stuff
+
+
+    @PutMapping("/polls/{pollId}/vote")
+    public ResponseEntity<Void> changeVote(@PathVariable UUID pollId, @RequestBody Vote vote) {
+        if (vote == null || vote.getOption() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Poll poll = pollManager.findPollById(pollId);
+        if (poll == null) {
+            return ResponseEntity.notFound().build();
+        }
+        pollManager.changeVote(poll, vote);
+        return ResponseEntity.ok().build();
+    }
 }
