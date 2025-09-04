@@ -1,16 +1,19 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.Poll;
-import com.example.demo.entities.PollUserDTO;
-import com.example.demo.entities.User;
+import com.example.demo.entities.PollManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 
 @RestController
+@RequestMapping("/polls")
 public class PollController {
 
     private final PollManager pollManager;
@@ -20,36 +23,39 @@ public class PollController {
         this.pollManager = pollManager;
     }
 
-    // CBA
-    // worked on test, but cant figure out how it can work on Bruno
-    // is it even a feature i want?
-//    @GetMapping("/poll")
-//    public ResponseEntity<Poll> getPoll(@RequestParam User user) {
-//        for (Map.Entry<Poll, User> entry : pollManager.getPollUserMap().entrySet()) {
-//            if (entry.getValue().equals(user)) {
-//                return ResponseEntity.ok(entry.getKey());
-//            }
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
-
-    // GetMapping uses @RequestParam not @RequestBody
-    @GetMapping("/polls")
-    public ResponseEntity<Set<Poll>> getPolls() {
-        return ResponseEntity.ok(pollManager.getPolls());
+    @GetMapping("/polls/{id}")
+    public ResponseEntity<Poll> getPollById(@PathVariable UUID id) {
+        Poll poll = pollManager.findPollById(id);
+        if (poll == null) {
+            return ResponseEntity.notFound().build();
+        } return ResponseEntity.ok(poll);
     }
 
-//    @PostMapping("/polls")
-//    public ResponseEntity<HashMap<Poll, User>> addPoll(@RequestBody PollUserDTO pollUserDTO) {
-//        HashMap<Poll, User> map = pollManager.getPollUserMap();
-//        map.put(pollUserDTO.getPoll(),pollUserDTO.getUser());
-//        return ResponseEntity.ok(map);
-//    }
+    @GetMapping
+    public ResponseEntity<Collection<Poll>> getPolls(@RequestParam(required = false) UUID userId) {
+        if (userId == null) {
+            return ResponseEntity.ok(pollManager.getPolls());
+        }
+        return ResponseEntity.ok(pollManager.findPollsByUserId(userId));
+    }
 
-    // this one
-    @PostMapping("/polls")
+    @PostMapping
     public ResponseEntity<Poll> addPoll(@RequestBody Poll poll) {
         pollManager.addPoll(poll);
         return ResponseEntity.ok(poll);
     }
+
+    @DeleteMapping("/polls/delete/{id}")
+    public ResponseEntity<Void> deletePoll(@PathVariable UUID id) {
+        boolean deleted = pollManager.deletePoll(id);
+        if (!deleted) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Poll ID " + id + " does not exists");
+        }
+        return ResponseEntity.noContent().build();
+    }
+
+//    @PostMapping("/polls/vote")
+//    public
+
+    //@PutMapping to update stuff
 }

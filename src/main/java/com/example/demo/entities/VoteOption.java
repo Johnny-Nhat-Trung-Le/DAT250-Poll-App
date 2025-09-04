@@ -6,19 +6,15 @@ public class VoteOption implements Serializable {
 
     private String option;
     private int presentationOrder;
+    private Long voteCount;
 
     public VoteOption() {}
 
-    // int? Long? votecount?
-    public VoteOption(String option, int presentationOrder) {
+    public VoteOption(String option, int presentationOrder, Long voteCount) {
         this.option = option;
         this.presentationOrder = presentationOrder;
-        // this.voteCount = 0; , and so on increment for each vote casted on this option with a method
+        this.voteCount = 0L;
     }
-
-    // make getters and setters for everything, essentially
-
-    // evt. public void incrementVoteCount() { voteCount += 1; }
 
     public String getOption() { return option; }
 
@@ -27,5 +23,9 @@ public class VoteOption implements Serializable {
     public int getPresentationOrder() { return presentationOrder; }
 
     public void setPresentationOrder(int presentationOrder) { this.presentationOrder = presentationOrder; }
+
+    public Long getVoteCount() { return voteCount; }
+
+    public void setVoteCount(Long voteCount) { this.voteCount = voteCount; }
 
 }

@@ -2,8 +2,8 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.UUID;
 
 public class Poll implements Serializable {
 
@@ -11,33 +11,23 @@ public class Poll implements Serializable {
     private Instant publishedAt;
     private Instant validUntil;
 
-    // map, voteoption, votecount?
-    private Set<VoteOption> options;
-    private User owner;
+    private List<VoteOption> options;
 
-    //temp for easy testing, remove later
-    private int i;
+    private UUID userId;
+    private UUID id;
 
     public Poll() {}
 
-    //temp for easy testing, remove later
-    public Poll(int i, User owner) {
-        this.i = i;
-        this.owner = owner;
-    }
-
-    // id?, int? or Long?, probably Long no?
-    // Poll cant exists without options | is my way of thinking
-    public Poll(String question, Set<VoteOption> options, Instant publishedAt, Instant validUntil, User owner) {
+    public Poll(String question, List<VoteOption> options, Instant publishedAt, Instant validUntil, UUID userId) {
+        this.id = UUID.randomUUID();
         this.question = question;
         this.options = options;
         this.publishedAt = publishedAt;
         this.validUntil = validUntil;
-        this.owner = owner;
+        this.userId = userId;
     }
 
-    //temp for easy testing, remove later
-    public int getI() { return i; }
+    public UUID getId() { return id; }
 
     public String getQuestion() { return question; }
 
@@ -51,13 +41,12 @@ public class Poll implements Serializable {
 
     public void setValidUntil(Instant validUntil) { this.validUntil = validUntil; }
 
-    public Set<VoteOption> getOptions() { return options; }
+    public List<VoteOption> getOptions() { return options; }
 
-    public void setOptions(Set<VoteOption> options) { this.options = options; }
+    public void setOptions(List<VoteOption> options) { this.options = options; }
 
-    public User getOwner() {return owner;}
+    public UUID getUserId() {return userId;}
 
-    public void setOwner(User owner) { this.owner = owner; }
+    public void setUserId(UUID userId) { this.userId = userId; }
 
-    // make getters and setters for everything, essentially
 }

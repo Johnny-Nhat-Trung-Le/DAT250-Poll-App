@@ -2,28 +2,34 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.UUID;
 
 public class Vote implements Serializable {
 
     private Instant publishedAt;
 
-    private User user;
+    // change user to UUID
+    private UUID userId;
     private VoteOption option;
 
     public Vote() {}
 
-    // vote has a user connected to it, to option they are voting for and time they voted
-    // removing Instant from constructer | yes or no
-    public Vote(User user, VoteOption option) {
-        this.user = user;
+    public Vote(UUID userId, VoteOption option) {
+        this.userId = userId;
         this.option = option;
         this.publishedAt = Instant.now();
     }
 
+    public UUID getUserId() { return userId; }
+
+    public void setUserId(UUID userId) { this.userId = userId; }
+
+    public VoteOption getOption() { return option; }
+
+    public void setOption(VoteOption option) { this.option = option; }
+
     public Instant getPublishedAt() { return publishedAt; }
 
     public void setPublishedAt(Instant publishedAt) { this.publishedAt = publishedAt; }
-
-    // make getters and setters for everything, essentially
 
 }

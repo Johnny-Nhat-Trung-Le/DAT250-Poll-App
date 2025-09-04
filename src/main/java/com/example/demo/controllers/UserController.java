@@ -1,13 +1,18 @@
 package com.example.demo.controllers;
 
+import com.example.demo.entities.PollManager;
 import com.example.demo.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.UUID;
 
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
     private final PollManager pollManager;
@@ -15,14 +20,22 @@ public class UserController {
     @Autowired
     public UserController(PollManager pollManager) { this.pollManager = pollManager; }
 
-    @PostMapping("/users")
-    public ResponseEntity<User> createUser (@RequestBody User user) {
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         pollManager.addUser(user);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<HashSet<User>> getUsers() {
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
+        User user = pollManager.findUserById(id);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        } return ResponseEntity.ok(user);
+    }
+
+    @GetMapping
+    public ResponseEntity<Collection<User>> getUsers() {
         return ResponseEntity.ok(pollManager.getUsers());
     }
 
