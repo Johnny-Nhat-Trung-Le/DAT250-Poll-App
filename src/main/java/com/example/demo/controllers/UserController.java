@@ -22,12 +22,18 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        if (user == null) {
+            return ResponseEntity.noContent().build();
+        }
         pollManager.addUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable UUID id) {
+        if (id == null) {
+            return ResponseEntity.notFound().build();
+        }
         User user = pollManager.findUserById(id);
         if (user == null) {
             return ResponseEntity.notFound().build();

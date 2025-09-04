@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.entities.Poll;
 import com.example.demo.entities.PollManager;
 import com.example.demo.entities.User;
 import com.example.demo.entities.Vote;

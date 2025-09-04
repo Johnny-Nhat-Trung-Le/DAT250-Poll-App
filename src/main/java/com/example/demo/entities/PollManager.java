@@ -13,14 +13,6 @@ public class PollManager implements Serializable {
     // pollId
     private final HashMap<UUID, Set<Vote>> pollVoteMap;
 
-    /*
-    * PollManager hanldes everything storing related and such, everything poll related gets managed here
-    * -->
-    * The controllers use PollManager and call specific methods to do stuff, get, set, delete and so on
-    *
-    * with this you dont need to test with response entities or not idk
-    * */
-
     public PollManager() {
         this.users = new HashMap<>();
         this.polls = new HashMap<>();
@@ -95,18 +87,13 @@ public class PollManager implements Serializable {
                 .orElse(null);
     }
 
-    public void vote(Poll poll, Vote vote) {
-        pollVoteMap.get(poll.getId()).add(vote);
-        incrementVoteCount(poll, vote);
-    }
-
     private void incrementVoteCount(Poll poll, Vote vote) {
         HashMap<VoteOption, Long> mapCount = poll.getVoteCount();
         VoteOption voteOption = vote.getOption();
         mapCount.merge(voteOption, 1L, Long::sum);
     }
 
-    public void changeVote(Poll poll, Vote newVote) {
+    public void submitVote(Poll poll, Vote newVote) {
         UUID userId = newVote.getUserId();
         Set<Vote> votes = pollVoteMap.get(poll.getId());
         Vote oldVote = null;
@@ -117,7 +104,10 @@ public class PollManager implements Serializable {
             }
         }
 
-        if (oldVote != null && !oldVote.getOption().equals(newVote.getOption())) {
+        if (oldVote == null) {
+            pollVoteMap.get(poll.getId()).add(newVote);
+            incrementVoteCount(poll, newVote);
+        } else if (!oldVote.getOption().equals(newVote.getOption())) {
             poll.getVoteCount().merge(oldVote.getOption(), -1L, Long::sum);
             poll.getVoteCount().merge(newVote.getOption(), 1L, Long::sum);
 

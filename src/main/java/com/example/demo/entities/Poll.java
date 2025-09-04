@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class Poll implements Serializable {

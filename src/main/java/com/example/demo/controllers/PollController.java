@@ -41,12 +41,18 @@ public class PollController {
 
     @PostMapping
     public ResponseEntity<Poll> addPoll(@RequestBody Poll poll) {
+        if (poll == null) {
+            return ResponseEntity.noContent().build();
+        }
         pollManager.addPoll(poll);
         return ResponseEntity.ok(poll);
     }
 
     @DeleteMapping("/polls/delete/{id}")
     public ResponseEntity<Void> deletePoll(@PathVariable UUID id) {
+        if (id == null) {
+            return ResponseEntity.notFound().build();
+        }
         boolean deleted = pollManager.deletePoll(id);
         if (!deleted) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Poll ID " + id + " does not exists");
@@ -56,6 +62,9 @@ public class PollController {
 
     @PostMapping("/polls/{pollId}/vote")
     public ResponseEntity<Void> vote(@PathVariable UUID pollId, @RequestBody Vote vote) {
+        if (pollId == null) {
+            return ResponseEntity.notFound().build();
+        }
         if (vote == null || vote.getOption() == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -63,7 +72,7 @@ public class PollController {
         if (poll == null) {
             return ResponseEntity.notFound().build();
         }
-        pollManager.vote(poll,vote);
+        pollManager.submitVote(poll,vote);
         return ResponseEntity.ok().build();
     }
 
@@ -71,6 +80,9 @@ public class PollController {
 
     @PutMapping("/polls/{pollId}/vote")
     public ResponseEntity<Void> changeVote(@PathVariable UUID pollId, @RequestBody Vote vote) {
+        if (pollId == null) {
+            return ResponseEntity.notFound().build();
+        }
         if (vote == null || vote.getOption() == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -78,7 +90,7 @@ public class PollController {
         if (poll == null) {
             return ResponseEntity.notFound().build();
         }
-        pollManager.changeVote(poll, vote);
+        pollManager.submitVote(poll, vote);
         return ResponseEntity.ok().build();
     }
 }
