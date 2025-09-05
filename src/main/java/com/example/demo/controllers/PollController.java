@@ -46,18 +46,6 @@ public class PollController {
         return ResponseEntity.ok(poll);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deletePoll(@PathVariable UUID id) {
-        if (id == null) {
-            return ResponseEntity.notFound().build();
-        }
-        boolean deleted = pollManager.deletePoll(id);
-        if (!deleted) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.noContent().build();
-    }
-
     @PostMapping("/{pollId}/vote")
     public ResponseEntity<Void> vote(@PathVariable UUID pollId, @RequestBody Vote vote) {
         if (pollId == null) {
@@ -73,8 +61,6 @@ public class PollController {
         pollManager.submitVote(poll,vote);
         return ResponseEntity.ok().build();
     }
-
-
 
     @PutMapping("/{pollId}/vote")
     public ResponseEntity<Void> changeVote(@PathVariable UUID pollId, @RequestBody Vote vote) {

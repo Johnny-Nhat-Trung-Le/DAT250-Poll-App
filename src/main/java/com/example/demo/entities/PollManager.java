@@ -49,10 +49,10 @@ public class PollManager implements Serializable {
         } return userPolls;
     }
 
-    public boolean deletePoll(UUID pollId) {
-        if (!polls.containsKey(pollId)) {
-            return false;
-        }
+    public boolean deletePoll(UUID userId, UUID pollId) {
+        if (!(users.containsKey(userId) && polls.containsKey(pollId))) return false;
+        Poll poll = findPollById(pollId);
+        if (!poll.getUserId().equals(userId)) return false;
         polls.remove(pollId);
         pollVoteMap.remove(pollId);
         return true;

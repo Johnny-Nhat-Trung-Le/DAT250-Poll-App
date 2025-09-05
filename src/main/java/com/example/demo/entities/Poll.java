@@ -3,7 +3,6 @@ package com.example.demo.entities;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class Poll implements Serializable {

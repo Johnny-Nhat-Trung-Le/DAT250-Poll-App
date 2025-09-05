@@ -44,4 +44,16 @@ public class UserController {
         return ResponseEntity.ok(pollManager.getUsers());
     }
 
+    @DeleteMapping("/{userId}/{pollId}")
+    public ResponseEntity<Void> deletePoll(@PathVariable UUID userId, @PathVariable UUID pollId) {
+        if (userId == null || pollId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        boolean deleted = pollManager.deletePoll(userId, pollId);
+        if (!deleted) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
 }
