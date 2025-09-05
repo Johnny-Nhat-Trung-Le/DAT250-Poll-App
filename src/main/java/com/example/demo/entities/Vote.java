@@ -1,9 +1,14 @@
 package com.example.demo.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
+@Getter
+@Setter
 public class Vote implements Serializable {
 
     private UUID userId;
@@ -15,17 +20,5 @@ public class Vote implements Serializable {
         this.option = option;
         this.publishedAt = Instant.now();
     }
-
-    public UUID getUserId() { return userId; }
-
-    public void setUserId(UUID userId) { this.userId = userId; }
-
-    public VoteOption getOption() { return option; }
-
-    public void setOption(VoteOption option) { this.option = option; }
-
-    public Instant getPublishedAt() { return publishedAt; }
-
-    public void setPublishedAt(Instant publishedAt) { this.publishedAt = publishedAt; }
 
 }

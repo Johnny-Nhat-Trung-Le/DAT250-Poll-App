@@ -1,11 +1,14 @@
 package com.example.demo.entities;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.*;
 
 @Component
+@Setter
 public class PollManager implements Serializable {
 
     // userId
@@ -23,13 +26,9 @@ public class PollManager implements Serializable {
 
     public Collection<User> getUsers() { return users.values(); }
 
-    public void setUsers(HashMap<UUID, User> users) { this.users = users; }
-
     public void addUser(User user) { users.put(user.getId(), user); }
 
     public Collection<Poll> getPolls() { return polls.values(); }
-
-    public void setPolls(HashMap<UUID, Poll> polls) { this.polls = polls; }
 
     public void addPoll(Poll poll) {
         polls.put(poll.getId(), poll);

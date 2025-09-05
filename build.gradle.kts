@@ -25,7 +25,9 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0")
 	implementation("org.springframework.data:spring-data-jpa")
 //	// https://mvnrepository.com/artifact/org.projectlombok/lombok
-//	implementation("org.projectlombok:lombok:1.18.38")
+	implementation("org.projectlombok:lombok:1.18.38")
+	annotationProcessor("org.projectlombok:lombok")
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

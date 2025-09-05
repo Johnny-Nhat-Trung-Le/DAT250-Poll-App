@@ -1,3 +1,14 @@
-# <center>  **DATA250 Lab 2** </center>
+# <center>  **DATA250 Lab 2** </center>  
+#### <center> **Johnny Nhat Trung Le** </center>
 
-I encountered no difficulties or problems during installation.
+asdd 
+
+asdasdsad
+
+asdasd
+
+asdasdasd
+
+asdasd
+
+asdasdads

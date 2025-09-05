@@ -1,7 +1,12 @@
 package com.example.demo.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class VoteOption implements Serializable {
 
     private int id;
@@ -11,13 +16,5 @@ public class VoteOption implements Serializable {
         this.id = id;
         this.option = option;
     }
-
-    public int getId() { return id; }
-
-    public void setId(int id) { this.id = id; }
-
-    public String getOption() { return option; }
-
-    public void setOption(String option) { this.option = option; }
 
 }
