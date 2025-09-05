@@ -2,7 +2,6 @@ package com.example.demo.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;

@@ -6,7 +6,6 @@ import com.example.demo.entities.Vote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collection;
 import java.util.UUID;
 
@@ -27,7 +26,7 @@ public class VoteController {
         return ResponseEntity.ok(pollManager.findVotesByUserId(userId));
     }
 
-    @GetMapping("/recent/{userId}")
+    @GetMapping("/{userId}/recent")
     public ResponseEntity<Vote> getRecentVote(@PathVariable UUID userId) {
         User user = pollManager.findUserById(userId);
         if (user == null) {

@@ -1,9 +1,7 @@
 package com.example.demo.entities;
 
-import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.util.*;
 

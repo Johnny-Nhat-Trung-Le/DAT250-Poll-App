@@ -2,10 +2,8 @@ package com.example.demo.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.io.Serializable;
 import java.util.*;
-
 
 @Getter
 @Setter

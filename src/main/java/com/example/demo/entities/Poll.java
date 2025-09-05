@@ -2,7 +2,6 @@ package com.example.demo.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import java.util.UUID;
 public class Poll implements Serializable {
 
     private UUID id;
-
     private String question;
     private Instant publishedAt;
     private Instant validUntil;
