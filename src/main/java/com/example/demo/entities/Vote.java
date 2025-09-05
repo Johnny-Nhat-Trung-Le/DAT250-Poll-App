@@ -10,8 +10,6 @@ public class Vote implements Serializable {
     private VoteOption option;
     private Instant publishedAt;
 
-    public Vote() {}
-
     public Vote(UUID userId, VoteOption option) {
         this.userId = userId;
         this.option = option;

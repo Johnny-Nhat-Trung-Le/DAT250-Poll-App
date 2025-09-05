@@ -113,4 +113,5 @@ public class PollManager implements Serializable {
             votes.add(newVote);
         }
     }
+
 }

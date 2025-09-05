@@ -14,10 +14,8 @@ public class Poll implements Serializable {
     private Instant publishedAt;
     private Instant validUntil;
     private List<VoteOption> options;
-    private HashMap<VoteOption, Long> voteCount;
+    private final HashMap<VoteOption, Long> voteCount;
     private UUID userId;
-
-    public Poll() {}
 
     public Poll(String question, List<VoteOption> options, Instant publishedAt, Instant validUntil, UUID userId) {
         this.id = UUID.randomUUID();
@@ -34,6 +32,8 @@ public class Poll implements Serializable {
     }
 
     public UUID getId() { return id; }
+
+    public void setId(UUID id) { this.id = id; }
 
     public String getQuestion() { return question; }
 

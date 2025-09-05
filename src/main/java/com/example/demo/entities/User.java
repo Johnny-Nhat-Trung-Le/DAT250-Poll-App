@@ -9,8 +9,6 @@ public class User implements Serializable {
     private String username;
     private String email;
 
-    public User() {}
-
     public User(String username, String email) {
         this.id = UUID.randomUUID();
         this.username = username;
@@ -26,5 +24,7 @@ public class User implements Serializable {
     public void setEmail(String email) { this.email = email; }
 
     public UUID getId() { return id; }
+
+    public void setId(UUID id) { this.id = id; }
 
 }
