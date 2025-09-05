@@ -22,6 +22,9 @@ public class PollController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Poll> getPollById(@PathVariable UUID id) {
+        if (id == null) {
+            return ResponseEntity.noContent().build();
+        }
         Poll poll = pollManager.findPollById(id);
         if (poll == null) {
             return ResponseEntity.notFound().build();

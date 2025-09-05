@@ -10,4 +10,9 @@ class PollApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void testScenario() {
+
+	}
+
 }
