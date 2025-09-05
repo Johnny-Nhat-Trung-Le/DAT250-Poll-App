@@ -27,7 +27,7 @@ public class VoteController {
         return ResponseEntity.ok(pollManager.findVotesByUserId(userId));
     }
 
-    @GetMapping("/votes/recent/{userId}")
+    @GetMapping("/recent/{userId}")
     public ResponseEntity<Vote> getRecentVote(@PathVariable UUID userId) {
         User user = pollManager.findUserById(userId);
         if (user == null) {

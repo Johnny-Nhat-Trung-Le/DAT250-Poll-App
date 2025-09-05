@@ -85,12 +85,6 @@ public class PollManager implements Serializable {
                 .orElse(null);
     }
 
-    private void incrementVoteCount(Poll poll, Vote vote) {
-        HashMap<VoteOption, Long> mapCount = poll.getVoteCount();
-        VoteOption voteOption = vote.getOption();
-        mapCount.merge(voteOption, 1L, Long::sum);
-    }
-
     public void submitVote(Poll poll, Vote newVote) {
         UUID userId = newVote.getUserId();
         Set<Vote> votes = pollVoteMap.get(poll.getId());
@@ -104,10 +98,7 @@ public class PollManager implements Serializable {
 
         if (oldVote == null) {
             pollVoteMap.get(poll.getId()).add(newVote);
-            incrementVoteCount(poll, newVote);
         } else if (!oldVote.getOption().equals(newVote.getOption())) {
-            poll.getVoteCount().merge(oldVote.getOption(), -1L, Long::sum);
-            poll.getVoteCount().merge(newVote.getOption(), 1L, Long::sum);
 
             votes.remove(oldVote);
             votes.add(newVote);

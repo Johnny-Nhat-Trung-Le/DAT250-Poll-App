@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class VoteOption implements Serializable {
 
-    private int presentationOrder;
+    private int id;
     private String option;
 
-    public VoteOption(int presentationOrder, String option) {
-        this.presentationOrder = presentationOrder;
+    public VoteOption(int id, String option) {
+        this.id = id;
         this.option = option;
     }
 
-    public int getPresentationOrder() { return presentationOrder; }
+    public int getId() { return id; }
 
-    public void setPresentationOrder(int presentationOrder) { this.presentationOrder = presentationOrder; }
+    public void setId(int id) { this.id = id; }
 
     public String getOption() { return option; }
 

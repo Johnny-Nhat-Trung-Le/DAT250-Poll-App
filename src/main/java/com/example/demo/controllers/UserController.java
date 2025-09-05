@@ -28,7 +28,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable UUID id) {
         if (id == null) {
             return ResponseEntity.notFound().build();

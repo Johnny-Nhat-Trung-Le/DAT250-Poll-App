@@ -4,10 +4,8 @@ import com.example.demo.entities.Poll;
 import com.example.demo.entities.PollManager;
 import com.example.demo.entities.Vote;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -23,7 +21,7 @@ public class PollController {
         this.pollManager = pollManager;
     }
 
-    @GetMapping("/polls/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Poll> getPollById(@PathVariable UUID id) {
         Poll poll = pollManager.findPollById(id);
         if (poll == null) {
@@ -48,19 +46,19 @@ public class PollController {
         return ResponseEntity.ok(poll);
     }
 
-    @DeleteMapping("/polls/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletePoll(@PathVariable UUID id) {
         if (id == null) {
             return ResponseEntity.notFound().build();
         }
         boolean deleted = pollManager.deletePoll(id);
         if (!deleted) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Poll ID " + id + " does not exists");
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/polls/{pollId}/vote")
+    @PostMapping("/{pollId}/vote")
     public ResponseEntity<Void> vote(@PathVariable UUID pollId, @RequestBody Vote vote) {
         if (pollId == null) {
             return ResponseEntity.notFound().build();
@@ -78,7 +76,7 @@ public class PollController {
 
 
 
-    @PutMapping("/polls/{pollId}/vote")
+    @PutMapping("/{pollId}/vote")
     public ResponseEntity<Void> changeVote(@PathVariable UUID pollId, @RequestBody Vote vote) {
         if (pollId == null) {
             return ResponseEntity.notFound().build();
