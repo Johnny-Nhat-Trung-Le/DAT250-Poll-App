@@ -24,7 +24,7 @@ public class UserController {
             return ResponseEntity.noContent().build();
         }
         pollManager.addUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/{id}")

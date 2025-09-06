@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -35,4 +32,15 @@ public class Poll implements Serializable {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Poll poll)) return false;
+        return Objects.equals(id, poll.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
