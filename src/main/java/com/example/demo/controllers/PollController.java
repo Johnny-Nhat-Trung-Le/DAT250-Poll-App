@@ -79,4 +79,5 @@ public class PollController {
         pollManager.submitVote(poll, vote);
         return ResponseEntity.ok().build();
     }
+
 }
