@@ -1,5 +1,5 @@
-# <center>  **DATA250 Lab 2** </center>  
-#### <center> **Johnny Nhat Trung Le** </center>
+#  **DATA250 Lab 2** 
+####  **Johnny Nhat Trung Le** 
 
 In this lab, Lab 2, I implement a simple REST API for Poll app using Spring Boot.
 I created two packages, one for storing the entities presented by the domain model in the assignment.
@@ -7,7 +7,8 @@ And controllers containing all my controller classes.
 
 Every controller class has the `@RestController` annotation, whilst the my `PollManager` class has the `@Component`.
 I added all the fields for the class according to the domain model from the assignment, whilst also added some of my own.
-In addition, for each of my entities classes, I made their own `equals()` and `hashCode()` methods.
+In addition, for each of my entities classes, I made their own `equals()` and `hashCode()` methods, 
+and added lombok `@Getter`and `@Setter` annotations where I saw fit. 
 
 In the `PollManager` class I made all the necessary methods such that all the steps in the test scenario in the assignments gets fulfilled.
 
