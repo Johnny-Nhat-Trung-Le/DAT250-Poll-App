@@ -1,7 +1,6 @@
 package com.example.demo.entities;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.io.Serializable;
 import java.time.Instant;
@@ -9,7 +8,6 @@ import java.util.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class Poll implements Serializable {
 
     private UUID id;
