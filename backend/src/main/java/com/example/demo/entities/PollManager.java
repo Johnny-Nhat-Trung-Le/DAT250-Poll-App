@@ -24,7 +24,16 @@ public class PollManager implements Serializable {
 
     public Collection<User> getUsers() { return users.values(); }
 
-    public void addUser(User user) { users.put(user.getId(), user); }
+    public User addUser(User user) {
+        Collection<User> allCurrentUsers = getUsers();
+        for (User u : allCurrentUsers) {
+            if (u.getEmail().equals(user.getEmail())){
+                return null;
+            }
+        }
+        users.put(user.getId(), user);
+        return user;
+    }
 
     public Collection<Poll> getPolls() { return polls.values(); }
 

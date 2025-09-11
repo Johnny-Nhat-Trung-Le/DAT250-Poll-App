@@ -2,17 +2,22 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.5.5"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("application")
 	jacoco
 }
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
-description = "Demo project for Spring Boot"
+description = "A simple REST API for Poll app using Spring Boot"
 
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+}
+
+application {
+	mainClass = "com/example/demo/PollApplication"
 }
 
 repositories {
@@ -50,4 +55,3 @@ tasks.jacocoTestReport {
 		html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
 	}
 }
-

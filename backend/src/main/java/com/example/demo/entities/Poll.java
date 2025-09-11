@@ -1,6 +1,7 @@
 package com.example.demo.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.io.Serializable;
 import java.time.Instant;
@@ -8,6 +9,7 @@ import java.util.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Poll implements Serializable {
 
     private UUID id;
@@ -16,7 +18,7 @@ public class Poll implements Serializable {
     private Instant validUntil;
     private ArrayList<VoteOption> options;
     private UUID userId;
-    private final HashMap<Integer, Long> voteCount;
+    private HashMap<Integer, Long> voteCount;
 
     public Poll(String question, ArrayList<VoteOption> options, Instant publishedAt, Instant validUntil, UUID userId) {
         this.id = UUID.randomUUID();

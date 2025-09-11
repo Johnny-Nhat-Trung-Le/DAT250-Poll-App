@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 import java.util.UUID;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -23,8 +24,11 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.noContent().build();
         }
-        pollManager.addUser(user);
-        return ResponseEntity.ok(user);
+        User newUser = pollManager.addUser(user);
+        if (newUser == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(newUser);
     }
 
     @GetMapping("/{id}")

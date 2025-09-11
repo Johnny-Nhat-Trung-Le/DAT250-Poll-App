@@ -1,12 +1,14 @@
 package com.example.demo.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class VoteOption implements Serializable {
 
     private int id;
