@@ -12,9 +12,12 @@ export default function CreateUser() {
     
     const BASE_API_URL = 'http://localhost:8080';
 
+    const trimUsername = () => setUserName(username.trim());
+    const trimEmail = () => setEmail(email.trim());
+
     const submitUser = async (action) => {
         if (!username || !email) {
-            console.error("Username and email required")
+            alert("Username and email required!")
             return;
         }
         const user = {
@@ -31,9 +34,7 @@ export default function CreateUser() {
                 body: JSON.stringify(user)
             })
 
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`)
-            }
+            if (!response.ok) throw new Error(`Response status: ${response.status}`)
 
             const result = await response.json()
             console.log(result)
@@ -46,26 +47,26 @@ export default function CreateUser() {
         }
     }
     return (
-        <div className="container">
-            <div className="header">
-                <div className="text"> Sign In </div>
-                <div className="underline"></div>
+        <div className="container-CreateUser">
+            <div className="header-CreateUser">
+                <div className="text-CreateUser"> Sign In </div>
+                <div className="underline-CreateUser"></div>
             </div>
-            <div className="inputs">
-                <div className="input">
-                    <label className='input-label'> Username: </label>
+            <div className="inputs-CreateUser">
+                <div className="input-CreateUser">
+                    <label className="input-label-CreateUser"> Username: </label>
                     <input type="text" value={username} onChange={(event) => setUserName(event.target.value)}
-                           className="Name" placeholder='Enter your username here' required/>
+                           className="Name-CreateUser" onBlur={trimUsername} placeholder='Enter your username here' />
                 </div>
-                <div className="input">
-                    <label className='input-label'> Email: </label>
+                <div className="input-CreateUser">
+                    <label className="input-label-CreateUser"> Email: </label>
                     <input type="email" value={email} onChange={(event) => setEmail(event.target.value)}
-                           className='Email' placeholder='Enter your email here' required/>
+                           className='Email-CreateUser' onBlur={trimEmail} placeholder='Enter your email here' />
                 </div>
             </div>
-            <div className='submit-container'>
-                <button className="submit" onClick={() => submitUser("create")}>Sign Up</button>
-                <button className="submit" onClick={() => submitUser("login")}>Login</button>
+            <div className="submit-container-CreateUser">
+                <button className="submit-CreateUser" onClick={() => submitUser("create")}>Sign Up</button>
+                <button className="submit-CreateUser" onClick={() => submitUser("login")}>Login</button>
             </div>
         </div>
         )

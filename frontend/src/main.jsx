@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import TestingRouter from './Components/TestingRouter.jsx'
 import CreatePoll from './Components/CreatePoll.jsx'
-import Vote from './Components/Vote.jsx'
+import VoteOnPolls from './Components/VoteOnPolls.jsx'
 import CreateUser from './Components/CreateUser.jsx'
 import AppContext from './Contexts/AppContext.jsx'
 
@@ -16,6 +16,7 @@ function AppWrapper() {
     <AppContext.Provider value={{ userId, setUserId, pollId, setPollId }}>
       <CreateUser />
       <CreatePoll /> 
+      <VoteOnPolls />
     </AppContext.Provider>
   )
 

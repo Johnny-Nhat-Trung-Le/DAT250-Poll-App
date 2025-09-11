@@ -9,7 +9,7 @@ export default function CreatePoll() {
     const [options, setOptions] = useState([{id: 0, value: ""}])
     const [publishedAt, setPublishedAt] = useState("")
     const [validUntil, setValidUntil] = useState("")
-    const { userId } = useContext(AppContext) 
+    const { userId, setPollId } = useContext(AppContext) 
 
     const BASE_API_URL = 'http://localhost:8080';
 
@@ -27,7 +27,37 @@ export default function CreatePoll() {
         setOptions(prev => prev.filter(option => option.id !== id))
     }
 
+    const trimQuestion = () => setQuestion(question.trim());
+    const trimOption = (id) => {
+        setOptions(prev => 
+            prev.map(opt => 
+                opt.id === id ? {...opt, value: opt.value.trim()} : opt
+            )
+        )
+    } 
+
     const submitPoll = async () => {
+        if(!userId) {
+            alert("You must be logged in to creae a poll!")
+            return
+        }
+
+        if(!question.trim()) {
+            alert("Question is required!")
+            return
+        }
+
+        const checkOptions = options.filter(opt => opt.value.trim() !== "")
+        if (checkOptions.length === 0) {
+            alert("At least one option is required!")
+            return;
+        }
+
+        if (!publishedAt || !validUntil) {
+            alert("Publish date and valid until date are requried!")
+            return
+        }
+        
         const poll = {
             question: question,
             options: options
@@ -45,65 +75,65 @@ export default function CreatePoll() {
                 body: JSON.stringify(poll)
             })
 
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`)
-            }
+            if (!response.ok) throw new Error(`Response status: ${response.status}`)
 
             const result = await response.json()
             console.log(result)
+
+            const pollId = JSON.parse(JSON.stringify(result))
+            setPollId(pollId.id)
         } catch (error) {
             console.error("Error creating poll:", error.message)
-            console.log(userId)
         }
     }
     return (
-        <div className="container">
-            <div className="header">
+        <div className="container-CreatePoll">
+            <div className="header-CreatePoll">
                 <header className="text">Creating A Poll</header>
-                <div className="underline"></div>
+                <div className="underline-CreatePoll"></div>
             </div>
 
-            <div className="inputs">
-                <div className="input">
-                    <label className="question-label"> Enter Question: </label>
+            <div className="inputs-CreatePoll">
+                <div className="input-CreatePoll">
+                    <label className="question-label-CreatePoll"> Enter Question: </label>
                     <input type="text" value={question} 
                            onChange={(event) => setQuestion(event.target.value)} className="Question" 
-                           placeholder='Enter question here'       
+                           onBlur={trimQuestion} placeholder='Enter question here'  
                     />
                 </div>
 
-                <div className="options">
-                    <div className="options-label">Enter Your Options Below:</div>
+                <div className="options-CreatePoll">
+                    <div className="options-label-CreatePoll">Enter Your Options Below:</div>
                     {options.map((option, index) => (
-                    <div key={option.id} className="option">
-                        <input 
+                    <div key={option.id} className="option-CreatePoll">
+                        <input className="input-CreatePoll"
                             type="text" value={option.value}
                             onChange={(event) => handleChange(option.id, event.target.value)}
-                            placeholder={`Enter option ${index +1} here`}
+                            onBlur={() => trimOption(option.id)} placeholder={`Enter option ${index +1} here`} 
                         />
-                        <button className="remove-button" onClick={() => removeOption(option.id)} disabled={options.length === 1}>
+                        <button className="remove-button-CreatePoll" onClick={() => removeOption(option.id)} disabled={options.length === 1}>
                             Remove Option
                         </button>
                     </div>
                     ))}
 
-                    <button className="add-button" onClick={addOption}>
+                    <button className="add-button-CreatePoll" onClick={addOption}>
                         Click To Add Option
                     </button>
                 </div>
 
-                <div className="publishedAt">
+                <div className="publishedAt-CreatePoll">
                     <label className="publish-label"> Publish Date: </label>
-                    <input type="datetime-local" value={publishedAt} onChange={(event) => setPublishedAt(event.target.value)} /> 
+                    <input type="datetime-local" value={publishedAt} onChange={(event) => setPublishedAt(event.target.value)} required/> 
                 </div>
                 
-                <div className="validUntil">
+                <div className="validUntil-CreatePoll">
                     <label className="valid-label"> Valid Until: </label>
-                    <input type="datetime-local" value={validUntil} onChange={(event) => setValidUntil(event.target.value)} /> 
+                    <input type="datetime-local" value={validUntil} onChange={(event) => setValidUntil(event.target.value)} required/> 
                 </div>
             </div>
 
-            <div className='submit-container'>
+            <div className="submit-container-CreatePoll">
                 <button className="submit" onClick={() => submitPoll()}>Make Poll</button>
             </div>
         </div>

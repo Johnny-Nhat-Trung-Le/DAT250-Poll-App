@@ -177,7 +177,7 @@ class PollApplicationTests {
 	 	// Step 8: user2 changes vote
 	 	Vote newVote = new Vote(user2.getId(), voteOption1);
 
-	 	ResponseEntity<Void> responseVote2 = client.put()
+	 	ResponseEntity<Void> responseVote2 = client.post()
 	 			.uri("/polls/{pollId}/vote", poll.getId())
 	 			.contentType(MediaType.APPLICATION_JSON)
 	 			.body(newVote)

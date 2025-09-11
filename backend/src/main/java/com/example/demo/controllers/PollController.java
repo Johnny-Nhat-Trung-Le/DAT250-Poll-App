@@ -64,21 +64,5 @@ public class PollController {
         pollManager.submitVote(poll,vote);
         return ResponseEntity.ok().build();
     }
-
-    @PutMapping("/{pollId}/vote")
-    public ResponseEntity<Void> changeVote(@PathVariable UUID pollId, @RequestBody Vote vote) {
-        if (pollId == null) {
-            return ResponseEntity.notFound().build();
-        }
-        if (vote == null || vote.getOption() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        Poll poll = pollManager.findPollById(pollId);
-        if (poll == null) {
-            return ResponseEntity.notFound().build();
-        }
-        pollManager.submitVote(poll, vote);
-        return ResponseEntity.ok().build();
-    }
-
+    
 }
