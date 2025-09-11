@@ -31,6 +31,18 @@ public class UserController {
         return ResponseEntity.ok(newUser);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<User> loginUser(@RequestBody User user) {
+        if (user == null) {
+            return ResponseEntity.noContent().build();
+        }
+        User login = pollManager.loginUser(user);
+        if (login == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(login);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable UUID id) {
         if (id == null) {
