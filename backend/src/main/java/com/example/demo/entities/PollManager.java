@@ -109,6 +109,9 @@ public class PollManager implements Serializable {
 
     public void submitVote(Poll poll, Vote newVote) {
         UUID userId = newVote.getUserId();
+        if (userId == null) {
+            return;
+        } 
         pollVoteMap.putIfAbsent(poll.getId(), new HashSet<>());
         Set<Vote> votes = pollVoteMap.get(poll.getId());
         Vote oldVote = null;

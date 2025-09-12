@@ -1,48 +1,51 @@
-import React from 'react'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 
 import '../Styling/CreatePoll.css'
 import AppContext from '../Contexts/AppContext'
 
-export default function CreatePoll() {
+import { PollContext } from '../Contexts/PollContext'
+
+export function CreatePoll() {
     const [question, setQuestion] = useState("")
-    const [options, setOptions] = useState([{id: 0, value: ""}])
+    const [options, setOptions] = useState([{ id: 0, value: "" }])
     const [publishedAt, setPublishedAt] = useState("")
     const [validUntil, setValidUntil] = useState("")
-    const { userId, setPollId } = useContext(AppContext) 
+    const { userId, setPollId } = useContext(AppContext)
 
-    const BASE_API_URL = 'http://localhost:8080';
+    const { fetchPolls } = useContext(PollContext)
+
+    const BASE_API_URL = 'http://localhost:8080'
 
     const addOption = () => {
         setOptions(prev => [
-            ...prev,{ id: prev.length > 0 ? prev[prev.length - 1].id + 1 : 0, value: ""}
+            ...prev, { id: prev.length > 0 ? prev[prev.length - 1].id + 1 : 0, value: "" }
         ])
     }
     const handleChange = (id, newValue) => {
-        setOptions(prev => 
-            prev.map(option => (option.id === id ? {...option, value: newValue } : option))
+        setOptions(prev =>
+            prev.map(option => (option.id === id ? { ...option, value: newValue } : option))
         )
     }
     const removeOption = (id) => {
         setOptions(prev => prev.filter(option => option.id !== id))
     }
 
-    const trimQuestion = () => setQuestion(question.trim());
+    const trimQuestion = () => setQuestion(question.trim())
     const trimOption = (id) => {
-        setOptions(prev => 
-            prev.map(opt => 
-                opt.id === id ? {...opt, value: opt.value.trim()} : opt
+        setOptions(prev =>
+            prev.map(opt =>
+                opt.id === id ? { ...opt, value: opt.value.trim() } : opt
             )
         )
-    } 
+    }
 
     const submitPoll = async () => {
-        if(!userId) {
-            alert("You must be logged in to creae a poll!")
+        if (!userId) {
+            alert("You must be logged in to create a poll!")
             return
         }
 
-        if(!question.trim()) {
+        if (!question.trim()) {
             alert("Question is required!")
             return
         }
@@ -50,28 +53,28 @@ export default function CreatePoll() {
         const checkOptions = options.filter(opt => opt.value.trim() !== "")
         if (checkOptions.length === 0) {
             alert("At least one option is required!")
-            return;
+            return
         }
 
         if (!publishedAt || !validUntil) {
             alert("Publish date and valid until date are requried!")
             return
         }
-        
+
         const poll = {
             question: question,
             options: options
                 .filter(opt => opt.value.trim() !== "")
-                .map(opt => ({ id: opt.id, option: opt.value})),
+                .map(opt => ({ id: opt.id, option: opt.value })),
             publishedAt: new Date(publishedAt).toISOString(),
             validUntil: new Date(validUntil).toISOString(),
             userId: userId
-        }  
-        
+        }
+
         try {
             const response = await fetch(`${BASE_API_URL}/polls`, {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(poll)
             })
 
@@ -82,6 +85,9 @@ export default function CreatePoll() {
 
             const pollId = JSON.parse(JSON.stringify(result))
             setPollId(pollId.id)
+
+            await fetchPolls()
+
         } catch (error) {
             console.error("Error creating poll:", error.message)
         }
@@ -96,25 +102,25 @@ export default function CreatePoll() {
             <div className="inputs-CreatePoll">
                 <div className="input-CreatePoll">
                     <label className="question-label-CreatePoll"> Enter Question: </label>
-                    <input type="text" value={question} 
-                           onChange={(event) => setQuestion(event.target.value)} className="Question" 
-                           onBlur={trimQuestion} placeholder='Enter question here'  
+                    <input type="text" value={question}
+                        onChange={(event) => setQuestion(event.target.value)} className="Question"
+                        onBlur={trimQuestion} placeholder='Enter question here'
                     />
                 </div>
 
                 <div className="options-CreatePoll">
                     <div className="options-label-CreatePoll">Enter Your Options Below:</div>
                     {options.map((option, index) => (
-                    <div key={option.id} className="option-CreatePoll">
-                        <input className="input-CreatePoll"
-                            type="text" value={option.value}
-                            onChange={(event) => handleChange(option.id, event.target.value)}
-                            onBlur={() => trimOption(option.id)} placeholder={`Enter option ${index +1} here`} 
-                        />
-                        <button className="remove-button-CreatePoll" onClick={() => removeOption(option.id)} disabled={options.length === 1}>
-                            Remove Option
-                        </button>
-                    </div>
+                        <div key={option.id} className="option-CreatePoll">
+                            <input className="input-CreatePoll"
+                                type="text" value={option.value}
+                                onChange={(event) => handleChange(option.id, event.target.value)}
+                                onBlur={() => trimOption(option.id)} placeholder={`Enter option ${index + 1} here`}
+                            />
+                            <button className="remove-button-CreatePoll" onClick={() => removeOption(option.id)} disabled={options.length === 1}>
+                                Remove Option
+                            </button>
+                        </div>
                     ))}
 
                     <button className="add-button-CreatePoll" onClick={addOption}>
@@ -124,18 +130,36 @@ export default function CreatePoll() {
 
                 <div className="publishedAt-CreatePoll">
                     <label className="publish-label"> Publish Date: </label>
-                    <input type="datetime-local" value={publishedAt} onChange={(event) => setPublishedAt(event.target.value)} required/> 
+                    <input type="datetime-local" value={publishedAt} onChange={(event) => setPublishedAt(event.target.value)} required />
                 </div>
-                
+
                 <div className="validUntil-CreatePoll">
                     <label className="valid-label"> Valid Until: </label>
-                    <input type="datetime-local" value={validUntil} onChange={(event) => setValidUntil(event.target.value)} required/> 
+                    <input type="datetime-local" value={validUntil} onChange={(event) => setValidUntil(event.target.value)} required />
                 </div>
             </div>
 
             <div className="submit-container-CreatePoll">
-                <button className="submit" onClick={() => submitPoll()}>Make Poll</button>
+                <button className="submit" onClick={() => submitPoll()}>Submit Poll</button>
             </div>
         </div>
     )
+}
+
+export default function showPoll() {
+    const [showComponent, setShowComponent] = useState(false)
+
+    const handleClick = () => {
+        setShowComponent(!showComponent)
+    };
+
+    useEffect(() => {
+    }, [showComponent])
+
+    return (
+        <div className="show-poll">
+            <button className="show-poll-button" onClick={handleClick}>Make Poll</button>
+            {!showComponent || <CreatePoll />}
+        </div>
+    );
 }
