@@ -1,9 +1,8 @@
-import { useState, useContext, useEffect } from 'react'
-
+import { useState, useContext } from 'react'
 import '../Styling/CreateUser.css'
 import AppContext from '../Contexts/AppContext'
 
-export function CreateUser() {
+export default function CreateUser({onSuccess}) {
     const [username, setUserName] = useState("")
     const [email, setEmail] = useState("")
 
@@ -33,13 +32,22 @@ export function CreateUser() {
                 body: JSON.stringify(user)
             })
 
-            if (!response.ok) throw new Error(`Response status: ${response.status}`)
+            if (!response.ok) {
+                alert("Invalid user!")
+                throw new Error(`Response status: ${response.status}`)
+            }
+                
 
             const result = await response.json()
             console.log(result)
 
             const userId = JSON.parse(JSON.stringify(result))
             setUserId(userId.id)
+
+            const successMsg = action === "login" ? "logged in" : "created"
+            alert(`User successfully ${successMsg}!`)
+            if (onSuccess) onSuccess()
+            
 
         } catch (error) {
             console.error("Error creating user:", error.message)
@@ -69,22 +77,4 @@ export function CreateUser() {
             </div>
         </div>
     )
-}
-
-export default function showUser() {
-    const [showComponent, setShowComponent] = useState(false)
-
-    const handleClick = () => {
-        setShowComponent(!showComponent)
-    };
-
-    useEffect(() => {
-    }, [showComponent])
-
-    return (
-        <div className="show-login">
-            <button className="show-login-button" onClick={handleClick}>Login</button>
-            {!showComponent || <CreateUser />}
-        </div>
-    );
 }

@@ -1,15 +1,13 @@
-import { useState, useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import AppContext from '../Contexts/AppContext'
 import Poll from './Poll'
-
 import { PollContext } from '../Contexts/PollContext'
-
 import '../Styling/VoteOnPolls.css'
 
 export default function VoteOnPolls() {
     const { userId } = useContext(AppContext)
 
-    const BASE_API_URL = 'http://localhost:8080';
+    const BASE_API_URL = 'http://localhost:8080'
 
     const { polls, fetchPolls } = useContext(PollContext)
 

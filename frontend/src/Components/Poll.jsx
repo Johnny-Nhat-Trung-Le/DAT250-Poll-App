@@ -1,7 +1,7 @@
 import Vote from './Vote.jsx'
 
 export default function Poll({ poll, submitVote }) {
-    if (!poll || !poll.options || !poll.voteCount) return null;
+    if (!poll || !poll.options || !poll.voteCount) return null
     return (
          <div className="poll-VoteOnPolls" key={poll.id}>
             <h2 className="header-VoteOnPolls">{poll.question}</h2>

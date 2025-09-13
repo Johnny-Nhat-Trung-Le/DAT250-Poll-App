@@ -1,11 +1,9 @@
-import { useState, useContext, useEffect } from 'react'
-
+import { useState, useContext } from 'react'
 import '../Styling/CreatePoll.css'
 import AppContext from '../Contexts/AppContext'
-
 import { PollContext } from '../Contexts/PollContext'
 
-export function CreatePoll() {
+export default function CreatePoll({onSuccess}) {
     const [question, setQuestion] = useState("")
     const [options, setOptions] = useState([{ id: 0, value: "" }])
     const [publishedAt, setPublishedAt] = useState("")
@@ -86,6 +84,9 @@ export function CreatePoll() {
             const pollId = JSON.parse(JSON.stringify(result))
             setPollId(pollId.id)
 
+            if (onSuccess) onSuccess()
+            alert("Poll successfully created!")
+
             await fetchPolls()
 
         } catch (error) {
@@ -144,22 +145,4 @@ export function CreatePoll() {
             </div>
         </div>
     )
-}
-
-export default function showPoll() {
-    const [showComponent, setShowComponent] = useState(false)
-
-    const handleClick = () => {
-        setShowComponent(!showComponent)
-    };
-
-    useEffect(() => {
-    }, [showComponent])
-
-    return (
-        <div className="show-poll">
-            <button className="show-poll-button" onClick={handleClick}>Make Poll</button>
-            {!showComponent || <CreatePoll />}
-        </div>
-    );
 }
