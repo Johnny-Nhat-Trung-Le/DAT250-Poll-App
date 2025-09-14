@@ -37,6 +37,7 @@ function AppWrapper() {
 }
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <h2 className="poll-application-title">Poll Application</h2>
     <AppWrapper />
   </StrictMode>,
 )

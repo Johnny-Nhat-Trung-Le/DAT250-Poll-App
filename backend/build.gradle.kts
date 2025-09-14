@@ -1,8 +1,11 @@
+import com.github.gradle.node.npm.task.NpmTask
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.5.5"
 	id("io.spring.dependency-management") version "1.1.7"
 	id("application")
+	id("com.github.node-gradle.node") version "7.0.2"
 	jacoco
 }
 
@@ -14,6 +17,12 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+}
+
+node {
+	version = "22.0.0"
+	npmVersion = "10.5.1"
+	download = true
 }
 
 application {
@@ -29,7 +38,6 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.6.0")
 	implementation("org.springframework.data:spring-data-jpa")
-//	// https://mvnrepository.com/artifact/org.projectlombok/lombok
 	implementation("org.projectlombok:lombok:1.18.38")
 	annotationProcessor("org.projectlombok:lombok")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -54,4 +62,15 @@ tasks.jacocoTestReport {
 		csv.required = false
 		html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
 	}
+}
+
+tasks.register<NpmTask>("runBuild") {
+	args = listOf("run", "build")
+	workingDir = file(".")
+}
+
+tasks.register<Copy>("copyWebApp") {
+	from("dist")
+	into("../backend/src/main/resources/static")
+	dependsOn("runBuild")
 }
