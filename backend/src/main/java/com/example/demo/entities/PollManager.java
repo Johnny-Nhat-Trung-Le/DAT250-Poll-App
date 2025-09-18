@@ -87,7 +87,7 @@ public class PollManager implements Serializable {
 
         for (Set<Vote> votes : pollVoteMap.values()) {
             for (Vote vote : votes) {
-                if (vote.getUserId().equals(userId)) {
+                if (vote.getId().equals(userId)) {
                     userVotes.add(vote);
                 }
             }
@@ -102,21 +102,21 @@ public class PollManager implements Serializable {
     }
 
     private void incrementVoteCount(Poll poll, Vote vote) {
-        HashMap<Integer, Long> mapCount = poll.getVoteCount();
-        VoteOption voteOption = vote.getOption();
-        mapCount.merge(voteOption.getId(), 1L, Long::sum);
+        Map<Integer, Long> mapCount = poll.getVoteCount();
+        VoteOption voteOption = vote.getVotesOn();
+        mapCount.merge(voteOption.getPresentationOrder(), 1L, Long::sum);
     }
 
     public void submitVote(Poll poll, Vote newVote) {
-        UUID userId = newVote.getUserId();
+        UUID userId = newVote.getId();
         if (userId == null) {
             return;
-        } 
+        }
         pollVoteMap.putIfAbsent(poll.getId(), new HashSet<>());
         Set<Vote> votes = pollVoteMap.get(poll.getId());
         Vote oldVote = null;
         for (Vote vote : votes) {
-            if(vote.getUserId().equals(userId)) {
+            if(vote.getId().equals(userId)) {
                 oldVote = vote;
                 break;
             }
@@ -125,9 +125,9 @@ public class PollManager implements Serializable {
         if (oldVote == null) {
             pollVoteMap.get(poll.getId()).add(newVote);
             incrementVoteCount(poll, newVote);
-        } else if (!oldVote.getOption().equals(newVote.getOption())) {
-            poll.getVoteCount().merge(oldVote.getOption().getId(), -1L, Long::sum);
-            poll.getVoteCount().merge(newVote.getOption().getId(), 1L, Long::sum);
+        } else if (!oldVote.getVotesOn().equals(newVote.getVotesOn())) {
+            poll.getVoteCount().merge(oldVote.getVotesOn().getPresentationOrder(), -1L, Long::sum);
+            poll.getVoteCount().merge(newVote.getVotesOn().getPresentationOrder(), 1L, Long::sum);
 
             votes.remove(oldVote);
             votes.add(newVote);

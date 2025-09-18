@@ -147,7 +147,7 @@ class PollApplicationTests {
 
 	 	LinkedList<Poll> linkedList1 = new LinkedList<>(responsePoll1.getBody());
 	 	Poll pollOldVote = linkedList1.pop();
-	 	assertEquals(1L, pollOldVote.getVoteCount().get(voteOption2.getId()));
+	 	assertEquals(1L, pollOldVote.getVoteCount().get(voteOption2.getPresentationOrder()));
 
 
 	 	URI uriOldVote = UriComponentsBuilder
@@ -166,13 +166,13 @@ class PollApplicationTests {
 	 	VoteOption user2voteOption1 = null;
 	 	for (Vote v : response7.getBody()) {
 	 		if (v.equals(oldVote)) {
-	 			user2voteOption1 = v.getOption();
+	 			user2voteOption1 = v.getVotesOn();
 	 			break;
 	 		}
 	 	}
 
 	 	assertNotNull(user2voteOption1);
-	 	assertEquals(user2voteOption1, oldVote.getOption());
+	 	assertEquals(user2voteOption1, oldVote.getVotesOn());
 
 	 	// Step 8: user2 changes vote
 	 	Vote newVote = new Vote(user2.getId(), voteOption1);
@@ -213,15 +213,15 @@ class PollApplicationTests {
 	 		if (v.equals(newVote)) {
 	 			publishedAtVote = v.getPublishedAt();
 	 			votePublishedNow = v;
-	 			assertNotEquals(v.getOption(),user2voteOption1);
+	 			assertNotEquals(v.getVotesOn(),user2voteOption1);
 	 			break;
 	 		}
 	 	}
 
 	 	LinkedList<Poll> linkedList2 = new LinkedList<>(responsePoll2.getBody());
 	 	Poll pollNewVote = linkedList2.pop();
-	 	assertEquals(0L, pollNewVote.getVoteCount().get(voteOption2.getId()));
-	 	assertEquals(1L, pollNewVote.getVoteCount().get(voteOption1.getId()));
+	 	assertEquals(0L, pollNewVote.getVoteCount().get(voteOption2.getPresentationOrder()));
+	 	assertEquals(1L, pollNewVote.getVoteCount().get(voteOption1.getPresentationOrder()));
 
 	 	// Step 9: List most recent vote for user2
 	 	ResponseEntity<Vote> response9 = client.get()

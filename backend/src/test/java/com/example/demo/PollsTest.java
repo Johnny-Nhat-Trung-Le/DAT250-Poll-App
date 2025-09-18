@@ -1,7 +1,10 @@
 package com.example.demo;
+
 import com.example.demo.entities.Poll;
 import com.example.demo.entities.User;
+import com.example.demo.entities.Vote;
 import com.example.demo.entities.VoteOption;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceConfiguration;
@@ -14,11 +17,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
 public class PollsTest {
 
     private EntityManagerFactory emf;
-
 
     private void populate(EntityManager em) {
         User alice = new User("alice", "alice@online.com");
@@ -52,6 +53,10 @@ public class PollsTest {
                 .property(PersistenceConfiguration.SCHEMAGEN_DATABASE_ACTION, "drop-and-create")
                 .property(PersistenceConfiguration.JDBC_USER, "sa")
                 .property(PersistenceConfiguration.JDBC_PASSWORD, "")
+                // Logging
+                .property("hibernate.show_sql", "true")
+                .property("hibernate.format_sql", "true")
+                .property("hibernate.use_sql_comments", "true")
                 .createEntityManagerFactory();
         emf.runInTransaction(em -> {
             populate(em);
@@ -89,4 +94,3 @@ public class PollsTest {
         });
     }
 }
-

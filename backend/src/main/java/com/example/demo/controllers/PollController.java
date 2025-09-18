@@ -54,7 +54,7 @@ public class PollController {
         if (pollId == null) {
             return ResponseEntity.notFound().build();
         }
-        if (vote == null || vote.getOption() == null || vote.getUserId() == null) {
+        if (vote == null || vote.getVotesOn() == null || vote.getId() == null) {
             return ResponseEntity.badRequest().build();
         }
         Poll poll = pollManager.findPollById(pollId);

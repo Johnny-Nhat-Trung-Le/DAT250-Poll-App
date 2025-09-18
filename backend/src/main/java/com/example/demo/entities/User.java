@@ -1,22 +1,46 @@
 package com.example.demo.entities;
 
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.*;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "users")
 public class User implements Serializable {
 
-    private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID user_id;
+
+    private UUID id = UUID.randomUUID();
+
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Poll> created;
+
     private String username;
     private String email;
 
+    public User() {}
+
     public User(String username, String email) {
-        this.id = UUID.randomUUID();
         this.username = username;
         this.email = email;
+        this.created = new LinkedHashSet<>();
+    }
+
+    public Poll createPoll(String question) {
+        Poll newPoll = new Poll(question, new ArrayList<>(), null, null, this.id);
+        newPoll.setCreatedBy(this);
+        return newPoll;
+    }
+
+    public Vote voteFor(VoteOption option) {
+        return new Vote(this.id, option);
     }
 
     @Override
