@@ -3,7 +3,6 @@ package com.example.demo.entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,7 +16,7 @@ import java.util.UUID;
 public class VoteOption implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
     private UUID vote_option_id;
 
     @ManyToOne

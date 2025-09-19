@@ -2,7 +2,6 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.io.Serializable;
 import java.time.Instant;
@@ -19,7 +18,6 @@ public class Vote implements Serializable {
     @GeneratedValue
     private UUID vote_id;
 
-    @Id
     private UUID id;
 
     @ManyToOne
