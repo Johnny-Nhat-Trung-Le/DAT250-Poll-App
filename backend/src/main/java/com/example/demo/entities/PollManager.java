@@ -2,6 +2,8 @@ package com.example.demo.entities;
 
 import lombok.Setter;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.UnifiedJedis;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -16,10 +18,13 @@ public class PollManager implements Serializable {
     // pollId
     private final HashMap<UUID, Set<Vote>> pollVoteMap;
 
+    private final UnifiedJedis jedis;
+
     public PollManager() {
         this.users = new HashMap<>();
         this.polls = new HashMap<>();
         this.pollVoteMap = new HashMap<>();
+        this.jedis = new UnifiedJedis("redis://localhost:6379");
     }
 
     public Collection<User> getUsers() { return users.values(); }

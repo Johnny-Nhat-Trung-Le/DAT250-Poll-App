@@ -44,8 +44,6 @@ dependencies {
 	implementation("jakarta.persistence:jakarta.persistence-api:3.2.0")
 
 	implementation("redis.clients:jedis:6.2.0")
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
-	implementation("org.springframework.boot:spring-boot-starter-data-redis:3.5.5")
 
 	annotationProcessor("org.projectlombok:lombok")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
