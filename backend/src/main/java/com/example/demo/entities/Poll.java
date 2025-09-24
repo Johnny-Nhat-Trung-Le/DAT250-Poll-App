@@ -31,7 +31,7 @@ public class Poll implements Serializable {
     @CollectionTable(name = "vote_count", joinColumns = @JoinColumn(name = "poll_id"))
     @MapKeyColumn(name = "option_id")
     @Column(name = "count")
-    private Map<Integer, Long> voteCount;
+    private Map<Integer, Long> voteCount = new HashMap<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
