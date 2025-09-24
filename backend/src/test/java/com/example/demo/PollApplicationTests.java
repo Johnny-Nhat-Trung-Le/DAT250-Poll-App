@@ -112,8 +112,6 @@ class PollApplicationTests {
 	 	assertEquals(question, response5.getBody().getQuestion());
 	 	assertEquals(voteOptions, response5.getBody().getOptions());
 
-		 Poll persistentPoll = response5.getBody();
-
 	 	// Step 6: List all polls and check if the poll is in it
 	 	ResponseEntity<Collection<Poll>> response6 = client.get()
 	 			.uri("/polls")
@@ -128,7 +126,7 @@ class PollApplicationTests {
 	 	Vote oldVote = new Vote(user2.getId(), voteOption2);
 
 	 	ResponseEntity<Void> responseVote1 = client.post()
-	 			.uri("/polls/{pollId}/vote", persistentPoll.getId())
+	 			.uri("/polls/{pollId}/vote", poll.getId())
 	 			.contentType(MediaType.APPLICATION_JSON)
 	 			.body(oldVote)
 	 			.retrieve()
