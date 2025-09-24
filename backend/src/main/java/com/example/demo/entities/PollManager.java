@@ -127,16 +127,49 @@ public class PollManager implements Serializable {
             }
         }
 
+        String key = getPollCacheKey(poll.getId());
+
         if (oldVote == null) {
             pollVoteMap.get(poll.getId()).add(newVote);
             incrementVoteCount(poll, newVote);
+            jedis.hincrBy(key, String.valueOf(newVote.getVotesOn().getPresentationOrder()), 1L);
         } else if (!oldVote.getVotesOn().equals(newVote.getVotesOn())) {
             poll.getVoteCount().merge(oldVote.getVotesOn().getPresentationOrder(), -1L, Long::sum);
             poll.getVoteCount().merge(newVote.getVotesOn().getPresentationOrder(), 1L, Long::sum);
 
+            jedis.hincrBy(key, String.valueOf(oldVote.getVotesOn().getPresentationOrder()), -1L);
+            jedis.hincrBy(key, String.valueOf(newVote.getVotesOn().getPresentationOrder()), 1L);
+
             votes.remove(oldVote);
             votes.add(newVote);
         }
+
+        jedis.expire(key, 1800);
+    }
+
+    private String getPollCacheKey(UUID pollId) {
+        return "poll:" + pollId + ":votes";
+    }
+
+    public Map<Integer, Long> getVoteCountsCached(Poll poll) {
+        String pollKey = getPollCacheKey(poll.getId());
+        Map<String, String> cache = jedis.hgetAll(pollKey);
+
+        if (cache != null && !cache.isEmpty()) {
+            Map<Integer, Long> result = new HashMap<>();
+            cache.forEach((key,value) -> result.put(Integer.valueOf(key), Long.valueOf(value)));
+            return result;
+        }
+
+        Map<Integer, Long> voteCounts = poll.getVoteCount();
+
+        Map<String, String> redisMap = new HashMap<>();
+        voteCounts.forEach((key, value) -> redisMap.put(key.toString(), value.toString()));
+
+        jedis.hset(pollKey, redisMap);
+        jedis.expire(pollKey, 1800);
+
+        return voteCounts;
     }
 
 }

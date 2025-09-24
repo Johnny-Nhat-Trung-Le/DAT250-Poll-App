@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 @CrossOrigin
@@ -64,5 +65,18 @@ public class PollController {
         pollManager.submitVote(poll,vote);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/{pollId}/votes")
+    public ResponseEntity<Map<Integer,Long>> getPollVotes(@PathVariable UUID pollId) {
+        if (pollId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        Poll poll = pollManager.findPollById(pollId);
+        if (poll == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(pollManager.getVoteCountsCached(poll));
+    }
+
     
 }
