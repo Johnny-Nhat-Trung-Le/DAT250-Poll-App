@@ -128,7 +128,6 @@ public class PollManager implements Serializable {
         }
 
         String key = getPollCacheKey(poll.getId());
-        jedis.del(key);
 
         if (oldVote == null) {
             pollVoteMap.get(poll.getId()).add(newVote);
