@@ -1,6 +1,9 @@
 package com.example.demo.entities;
 
+import com.example.demo.messagebroker.PollBrokerManager;
+import com.example.demo.messagebroker.PollEventListener;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.UnifiedJedis;
 
@@ -19,6 +22,11 @@ public class PollManager implements Serializable {
     private final HashMap<UUID, Set<Vote>> pollVoteMap;
 
     private final UnifiedJedis jedis;
+
+    @Autowired
+    private PollBrokerManager pollBrokerManager;
+    @Autowired
+    private PollEventListener pollEventListener;
 
     public PollManager() {
         this.users = new HashMap<>();
@@ -55,6 +63,9 @@ public class PollManager implements Serializable {
     public void addPoll(Poll poll) {
         polls.put(poll.getId(), poll);
         pollVoteMap.put(poll.getId(), new HashSet<>());
+
+        pollBrokerManager.registerQueue(poll.getId());
+        pollEventListener.registerListener(poll.getId(), this);
     }
 
     public User findUserById(UUID userId) { return users.get(userId); }

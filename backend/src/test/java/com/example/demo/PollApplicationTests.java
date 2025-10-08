@@ -4,6 +4,7 @@ import com.example.demo.entities.Poll;
 import com.example.demo.entities.User;
 import com.example.demo.entities.Vote;
 import com.example.demo.entities.VoteOption;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,7 @@ import java.net.URI;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -124,16 +126,16 @@ class PollApplicationTests {
 
 	 	// Step 7: user2 votes on user1's poll
 	 	Vote oldVote = new Vote(user2.getId(), voteOption2);
+		 Awaitility.await().atMost(5, TimeUnit.SECONDS).untilAsserted(() -> {
+			ResponseEntity<Void> responseVote1 = client.post()
+					.uri("/polls/{pollId}/vote", poll.getId())
+					.contentType(MediaType.APPLICATION_JSON)
+					.body(oldVote)
+					.retrieve()
+					.toBodilessEntity();
 
-	 	ResponseEntity<Void> responseVote1 = client.post()
-	 			.uri("/polls/{pollId}/vote", poll.getId())
-	 			.contentType(MediaType.APPLICATION_JSON)
-	 			.body(oldVote)
-	 			.retrieve()
-	 			.toBodilessEntity();
-
-	 	assertEquals(HttpStatus.OK, responseVote1.getStatusCode());
-
+			assertEquals(HttpStatus.OK, responseVote1.getStatusCode());
+		 });
 	 	URI uriPoll = UriComponentsBuilder
 	 			.fromUriString("http://localhost:" + port + "/polls?q={q}")
 	 			.build("userId", user1.getId());

@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.entities.Poll;
 import com.example.demo.entities.PollManager;
 import com.example.demo.entities.Vote;
+import com.example.demo.messagebroker.PollEventPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ import java.util.UUID;
 public class PollController {
 
     private final PollManager pollManager;
+
+    @Autowired
+    private PollEventPublisher pollEventPublisher;
 
     @Autowired
     public PollController(PollManager pollManager) {
@@ -62,7 +66,8 @@ public class PollController {
         if (poll == null) {
             return ResponseEntity.notFound().build();
         }
-        pollManager.submitVote(poll,vote);
+//        pollManager.submitVote(poll,vote);
+        pollEventPublisher.publishVote(pollId.toString(),vote);
         return ResponseEntity.ok().build();
     }
 

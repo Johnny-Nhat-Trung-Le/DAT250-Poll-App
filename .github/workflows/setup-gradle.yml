@@ -20,13 +20,9 @@ jobs:
         run: gradle build
       - name: Test with Gradle
         run: gradle test
-      # Service containers to run with `container-job`
     services:
-      # Label used to access the service container
       redis:
-        # Docker Hub image
         image: redis
-        # Set health checks to wait until redis has started
         ports:
           - 6379:6379
         options: >-
@@ -34,3 +30,16 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      rabbitmq:
+          image: rabbitmq:4-management
+          ports:
+            - 5672:5672
+            - 15672:15672
+          env:
+              RABBITMQ_DEFAULT_USER: guest
+              RABBITMQ_DEFAULT_PASS: guest
+          options: >-
+            --health-cmd "rabbitmqctl status"
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 3
