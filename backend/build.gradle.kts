@@ -25,8 +25,8 @@ node {
 	download = true
 }
 
-application {
-	mainClass = "com/example/demo/PollApplication"
+springBoot {
+	mainClass = "com.example.demo.PollApplication"
 }
 
 repositories {
